@@ -21,7 +21,6 @@ Provide your review structured under these exact Markdown headers:
 # Key is read from an environment variable - never hard-code it in this file.
 # PowerShell:  $env:GEMINI_API_KEY="your_key_here"
 API_KEY = os.environ.get("GEMINI_API_KEY")
-
 # Models are tried in order. If one is busy, slow, or retired, the next one is used.
 # If Google renames models, the error in your terminal will tell you the new names.
 MODELS = ["gemini-3.5-flash-lite", "gemini-3.8-flash"]
@@ -60,7 +59,38 @@ def call_gemini(model, user_code):
         try:
             with urllib.request.urlopen(req, timeout=TIMEOUT_SECONDS) as response:
                 res_data = json.loads(response.read().decode('utf-8'))
-                return res_data['candidates'][0]['content']['parts'][0]['text'], None
+                candidates = res_data.get('candidates') or []
+                if not candidates:
+                    feedback = res_data.get('promptFeedback') or {}
+                    block_reason = (
+                        feedback.get('blockReason')
+                        or 'the API returned no candidates'
+                    )
+                    return None, f"{model}: no review generated ({block_reason})"
+
+                candidate = candidates[0]
+                if not isinstance(candidate, dict):
+                    return None, f"{model}: invalid candidate in the API response"
+                content = candidate.get('content') or {}
+                parts = [] if not isinstance(content, dict) else content.get('parts') or []
+                text_parts = [
+                    part['text'].strip()
+                    for part in parts
+                    if isinstance(part, dict)
+                    and isinstance(part.get('text'), str)
+                    and part['text'].strip()
+                    and not part.get('thought', False)
+                ]
+                if not text_parts:
+                    finish_reason = candidate.get('finishReason')
+                    detail = (
+                        f"the response finished with {finish_reason}"
+                        if finish_reason
+                        else 'the API response contained no review text'
+                    )
+                    return None, f"{model}: no review generated ({detail})"
+
+                return '\n\n'.join(text_parts), None
 
         except urllib.error.HTTPError as e:
             body = e.read().decode('utf-8', errors='replace')
@@ -74,9 +104,9 @@ def call_gemini(model, user_code):
             print(f"[{model}] timed out or failed: {e}")
             return None, f"{model}: timeout"
 
-        except (KeyError, IndexError):
-            print(f"[{model}] unexpected response format")
-            return None, f"{model}: unexpected response"
+        except (json.JSONDecodeError, UnicodeDecodeError) as e:
+            print(f"[{model}] invalid JSON response: {e}")
+            return None, f"{model}: invalid response from the API"
 
     return None, f"{model}: failed"
 
@@ -100,7 +130,9 @@ def review_code():
             errors.append(error)
             print(f"Switching to next model after: {error}")
 
-        return jsonify({"error": "Gemini is busy right now. Please try again in a minute. (" + "; ".join(errors) + ")"}), 503
+        return jsonify({
+            "error": "Could not generate a review. " + "; ".join(errors)
+        }), 503
 
     except Exception as e:
         traceback.print_exc()

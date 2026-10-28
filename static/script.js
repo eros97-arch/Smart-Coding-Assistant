@@ -138,10 +138,17 @@ function renderReview(markdown) {
     });
 
     content.replaceChildren(foundSection ? out : temp);
+    if (!content.textContent.trim()) {
+        const fallback = document.createElement('pre');
+        fallback.className = 'review-raw';
+        fallback.textContent = markdown;
+        content.replaceChildren(fallback);
+    }
     addCopyButtons(content);
 }
 
 function showError(message) {
+    lastMarkdown = '';
     const box = document.createElement('div');
     box.className = 'error';
     const label = document.createElement('strong');
@@ -156,6 +163,9 @@ function startLoading() {
     reviewBtn.disabled = true;
     reviewBtn.textContent = 'Reviewing...';
     results.hidden = true;
+    content.replaceChildren();
+    copyReviewBtn.hidden = true;
+    lastMarkdown = '';
     loading.hidden = false;
     let i = 0;
     loadingText.textContent = STATUS_MESSAGES[0];
@@ -189,18 +199,24 @@ async function submitCode() {
             body: JSON.stringify({ code: code })
         });
 
-        let data = {};
-        try { data = await response.json(); } catch (e) { /* non-JSON response */ }
+        const responseBody = await response.text();
+        let data;
+        try {
+            data = responseBody ? JSON.parse(responseBody) : {};
+        } catch (err) {
+            showError(`The server returned an unreadable response (HTTP ${response.status}).`);
+            return;
+        }
 
-        if (response.ok && data.analysis) {
-            lastMarkdown = data.analysis;
+        if (response.ok && typeof data.analysis === 'string' && data.analysis.trim()) {
+            lastMarkdown = data.analysis.trim();
             copyReviewBtn.hidden = false;
-            renderReview(data.analysis);
+            renderReview(lastMarkdown);
         } else {
-            showError(data.error || `The server returned status ${response.status}.`);
+            showError(data.error || `The server returned status ${response.status} without a review.`);
         }
     } catch (err) {
-        showError('Could not reach the server. Check that app.py is still running.');
+        showError(`Could not complete the request. ${err.message || 'Check that app.py is still running.'}`);
     } finally {
         stopLoading();
         results.hidden = false;

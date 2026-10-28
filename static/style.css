@@ -254,6 +254,13 @@ textarea:focus-visible { outline: 0; }
 .review-body li { margin-bottom: 8px; }
 .review-body strong { color: #fff; font-weight: 600; }
 
+.review-raw {
+    margin: 0;
+    color: #ced4e8;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
 .review-body code {
     font-family: "JetBrains Mono", ui-monospace, Consolas, monospace;
     font-size: 0.85em;
