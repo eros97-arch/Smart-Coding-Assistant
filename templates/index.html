@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Code Checker</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Markdown rendering + sanitising the AI output before it goes into the page -->
+    <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<main class="page">
+    <header>
+        <div class="mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="8 7 3 12 8 17"></polyline>
+                <polyline points="16 7 21 12 16 17"></polyline>
+                <line x1="13.5" y1="5" x2="10.5" y2="19"></line>
+            </svg>
+        </div>
+        <h1>Smart Code Checker</h1>
+        <p class="sub">Paste a snippet and get a senior-level review of its bugs, performance, security, and a cleaner rewrite.</p>
+    </header>
+
+    <section aria-label="Code input">
+        <div class="editor">
+            <div class="editor-inner">
+                <div class="toolbar">
+                    <div class="dots" aria-hidden="true"><span></span><span></span><span></span></div>
+                    <div class="tool-actions">
+                        <button type="button" class="ghost" id="example-btn">Insert example</button>
+                        <button type="button" class="ghost" id="clear-btn">Clear</button>
+                    </div>
+                </div>
+                <textarea id="code-input" spellcheck="false" aria-label="Code to review"
+                          placeholder="Paste your PHP, Python, C#, C++ or JavaScript code here..."></textarea>
+            </div>
+        </div>
+
+        <div class="footer-row">
+            <span class="count" id="count">0 lines, 0 characters</span>
+            <span class="hint">Press Ctrl+Enter to review</span>
+            <button class="primary" id="review-btn" type="button">Review code</button>
+        </div>
+    </section>
+
+    <div id="loading" class="loading" role="status" aria-live="polite" hidden>
+        <p class="loading-text" id="loading-text">Reading your code...</p>
+        <div class="scan"></div>
+    </div>
+
+    <section id="results" class="results" aria-live="polite" hidden>
+        <div class="results-head">
+            <h2>Review</h2>
+            <button type="button" class="ghost" id="copy-review">Copy review</button>
+        </div>
+        <div id="review-content"></div>
+    </section>
+
+    <p class="disclaimer">AI reviews can be wrong. Check every suggestion before using it in your project.</p>
+</main>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
