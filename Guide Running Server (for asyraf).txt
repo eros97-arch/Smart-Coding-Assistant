@@ -7,8 +7,11 @@ pip install flask google-genai
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
 
 
+$env:GEMINI_API_KEY="AQ.Ab8RN6KwYV2tIFaE4Vx207jPmT72HfDnw1zECCozRUnVieV7Pw"
 
 
+vAQ.Ab8RN6KwYV2tIFaE4Vx207jPmT72HfDnw1zECCozRUnVieV7Pw
+AQ.Ab8RN6KwYV2tIFaE4Vx207jPmT72HfDnw1zECCozRUnVieV7Pw
 
 pip install flask
 
