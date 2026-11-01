@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Code Checker</title>
+    <title>Smart Code Checker</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,57 +16,149 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-
-<main class="page">
-    <header>
-        <div class="mark" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="8 7 3 12 8 17"></polyline>
-                <polyline points="16 7 21 12 16 17"></polyline>
-                <line x1="13.5" y1="5" x2="10.5" y2="19"></line>
-            </svg>
-        </div>
-        <h1>Smart Code Checker</h1>
-        <p class="sub">Paste a snippet and get a senior-level review of its bugs, performance, security, and a cleaner rewrite.</p>
-    </header>
-
-    <section aria-label="Code input">
-        <div class="editor">
-            <div class="editor-inner">
-                <div class="toolbar">
-                    <div class="dots" aria-hidden="true"><span></span><span></span><span></span></div>
-                    <div class="tool-actions">
-                        <button type="button" class="ghost" id="example-btn">Insert example</button>
-                        <button type="button" class="ghost" id="clear-btn">Clear</button>
-                    </div>
-                </div>
-                <textarea id="code-input" spellcheck="false" aria-label="Code to review"
-                          placeholder="Paste your PHP, Python, C#, C++ or JavaScript code here..."></textarea>
+<div class="app-shell" id="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="Conversation history">
+        <div class="sidebar-brand">
+            <div class="mark" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="8 7 3 12 8 17"></polyline>
+                    <polyline points="16 7 21 12 16 17"></polyline>
+                    <line x1="13.5" y1="5" x2="10.5" y2="19"></line>
+                </svg>
             </div>
+            <span class="brand-name">Smart Code Checker</span>
         </div>
-
-        <div class="footer-row">
-            <span class="count" id="count">0 lines, 0 characters</span>
-            <span class="hint">Press Ctrl+Enter to review</span>
-            <button class="primary" id="review-btn" type="button">Review code</button>
-        </div>
-    </section>
-
-    <div id="loading" class="loading" role="status" aria-live="polite" hidden>
-        <p class="loading-text" id="loading-text">Reading your code...</p>
-        <div class="scan"></div>
+        <button class="primary new-review" id="new-review-btn" type="button">+ New review</button>
+        <label class="history-search">
+            <span class="sr-only">Search conversations</span>
+            <input id="history-search" type="search" placeholder="Search reviews">
+        </label>
+        <div class="history-label">Recent reviews</div>
+        <nav class="conversation-list" id="conversation-list" aria-label="Saved reviews"></nav>
+    </aside>
+    <button class="sidebar-backdrop" id="sidebar-backdrop" type="button" aria-label="Close navigation"></button>
+    <div class="dialog-layer" id="dialog-layer" hidden>
+        <section class="dialog-box" role="dialog" aria-modal="true" aria-labelledby="dialog-title">
+            <h2 id="dialog-title">Rename review</h2>
+            <p id="dialog-message" hidden></p>
+            <form id="dialog-form">
+                <label id="dialog-label" for="dialog-input">Review title</label>
+                <input id="dialog-input" type="text" maxlength="100" required>
+                <div class="dialog-actions">
+                    <button class="ghost" id="dialog-cancel" type="button">Cancel</button>
+                    <button class="primary" id="dialog-confirm" type="submit">Save</button>
+                </div>
+            </form>
+        </section>
     </div>
 
-    <section id="results" class="results" aria-live="polite" hidden>
-        <div class="results-head">
-            <h2>Review</h2>
-            <button type="button" class="ghost" id="copy-review" hidden>Copy review</button>
+    <div class="workspace">
+        <div class="topbar">
+            <button class="sidebar-toggle" id="sidebar-toggle" type="button" aria-label="Toggle sidebar" aria-expanded="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                    <path d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+            <span class="topbar-title">Code review workspace</span>
+            <span class="status-indicator"><span></span> Gemini review</span>
         </div>
-        <div id="review-content"></div>
-    </section>
 
-    <p class="disclaimer">AI reviews can be wrong. Check every suggestion before using it in your project.</p>
-</main>
+        <main class="main-content">
+            <section class="view dashboard-view" id="dashboard-view">
+                <div class="view-heading">
+                    <div>
+                        <p class="eyebrow">Overview</p>
+                        <h1>Dashboard</h1>
+                        <p class="view-subtitle">Your code review activity at a glance.</p>
+                    </div>
+                    <button class="primary" id="dashboard-new-review" type="button">Start a review</button>
+                </div>
+
+                <div class="stats-grid" aria-label="Review statistics">
+                    <article class="stat-card"><span>Total code reviews</span><strong id="stat-reviews">0</strong><small>Saved review sessions</small></article>
+                    <article class="stat-card"><span>Detected issues</span><strong id="stat-issues">0</strong><small>Across initial reviews</small></article>
+                    <article class="stat-card"><span>Languages used</span><strong id="stat-languages">0</strong><small>Of 10 supported languages</small></article>
+                </div>
+
+                <div class="dashboard-grid">
+                    <section class="dashboard-panel activity-panel">
+                        <div class="panel-heading"><div><p class="eyebrow">History</p><h2>Recent activity</h2></div></div>
+                        <div id="recent-activity" class="recent-activity"></div>
+                    </section>
+                    <section class="dashboard-panel severity-panel">
+                        <div class="panel-heading"><div><p class="eyebrow">Findings</p><h2>Issue severity</h2></div></div>
+                        <div id="severity-stats" class="severity-stats"></div>
+                    </section>
+                    <section class="dashboard-panel languages-panel">
+                        <div class="panel-heading"><div><p class="eyebrow">Coverage</p><h2>Programming languages</h2></div></div>
+                        <div id="language-usage" class="language-usage"></div>
+                        <div class="supported-languages"><span>Supported</span><p id="supported-languages"></p></div>
+                    </section>
+                </div>
+            </section>
+
+            <section class="view editor-view" id="editor-view" hidden>
+                <div class="view-heading compact-heading">
+                    <div><p class="eyebrow">New session</p><h1>Review code</h1><p class="view-subtitle">Choose a language, then submit code for analysis.</p></div>
+                </div>
+                <section aria-label="Code input">
+                    <label class="language-field" for="language-select">Programming language
+                        <select id="language-select">
+                            <option>Python</option><option>JavaScript</option><option>Java</option><option>PHP</option>
+                            <option>C</option><option>C++</option><option>C#</option><option>SQL</option><option>HTML</option><option>CSS</option>
+                        </select>
+                    </label>
+                    <div class="editor">
+                        <div class="editor-inner">
+                            <div class="toolbar">
+                                <div class="dots" aria-hidden="true"><span></span><span></span><span></span></div>
+                                <div class="tool-actions">
+                                    <button type="button" class="ghost" id="example-btn">Insert example</button>
+                                    <button type="button" class="ghost" id="clear-btn">Clear</button>
+                                </div>
+                            </div>
+                            <textarea id="code-input" spellcheck="false" aria-label="Code to review"
+                                      placeholder="Paste code here..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="footer-row">
+                        <span class="count" id="count">0 lines, 0 characters</span>
+                        <span class="hint">Press Ctrl+Enter to review</span>
+                        <button class="primary" id="review-btn" type="button">Review code</button>
+                    </div>
+                </section>
+
+                <div id="loading" class="loading" role="status" aria-live="polite" hidden>
+                    <p class="loading-text" id="loading-text">Reading your code...</p>
+                    <div class="scan"></div>
+                </div>
+
+                <section id="results" class="results" aria-live="polite" hidden>
+                    <div class="results-head">
+                        <h2>Review</h2>
+                        <button type="button" class="ghost" id="copy-review" hidden>Copy review</button>
+                    </div>
+                    <div id="review-content"></div>
+                </section>
+                <p class="disclaimer">AI reviews can be wrong. Check every suggestion before using it in your project.</p>
+            </section>
+
+            <section class="view conversation-view" id="conversation-view" hidden>
+                <div class="conversation-heading">
+                    <div><p class="eyebrow" id="conversation-language">Review conversation</p><h1 id="conversation-title">Review</h1></div>
+                    <button class="ghost" id="conversation-dashboard" type="button">Dashboard</button>
+                </div>
+                <div class="transcript" id="transcript" aria-live="polite"></div>
+                <form class="followup-form" id="followup-form">
+                    <label class="sr-only" for="followup-input">Ask a follow-up question</label>
+                    <textarea id="followup-input" rows="2" placeholder="Ask about the review, request a correction, or explore another improvement..."></textarea>
+                    <div class="composer-footer"><span>Enter to send, Shift+Enter for a new line</span><button class="primary" id="send-followup" type="submit">Send</button></div>
+                </form>
+            </section>
+        </main>
+    </div>
+</div>
 
 <script src="{{ url_for('static', filename='script.js') }}"></script>
 
