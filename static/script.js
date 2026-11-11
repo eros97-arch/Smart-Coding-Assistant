@@ -172,6 +172,133 @@ function renderReview(markdown, target = content) {
     addCopyButtons(target);
 }
 
+function appendReviewText(root, label, value) {
+    if (!value) return;
+    const block = document.createElement('div');
+    block.className = 'structured-review-text';
+    const heading = document.createElement('strong');
+    heading.textContent = label;
+    const text = document.createElement('p');
+    text.textContent = value;
+    block.append(heading, text);
+    root.appendChild(block);
+}
+
+function appendReviewCode(root, label, value) {
+    if (!value) return;
+    const block = document.createElement('div');
+    block.className = 'structured-review-code';
+    const heading = document.createElement('strong');
+    heading.textContent = label;
+    const pre = document.createElement('pre');
+    const code = document.createElement('code');
+    code.textContent = value;
+    pre.appendChild(code);
+    block.append(heading, pre);
+    root.appendChild(block);
+}
+
+function renderStructuredReview(review, target = content) {
+    const root = document.createElement('div');
+    root.className = 'structured-review';
+
+    const assessment = document.createElement('section');
+    assessment.className = 'structured-review-panel';
+    const assessmentHeading = document.createElement('h3');
+    assessmentHeading.textContent = `Overall assessment · ${review.overall_assessment.quality}`;
+    const assessmentSummary = document.createElement('p');
+    assessmentSummary.textContent = review.overall_assessment.summary;
+    assessment.append(assessmentHeading, assessmentSummary);
+    root.appendChild(assessment);
+
+    const issuesHeading = document.createElement('h3');
+    issuesHeading.textContent = `Issues (${review.issues.length})`;
+    root.appendChild(issuesHeading);
+    if (!review.issues.length) {
+        const emptyIssues = document.createElement('p');
+        emptyIssues.textContent = 'No issues were identified.';
+        root.appendChild(emptyIssues);
+    }
+    review.issues.forEach((issue) => {
+        const card = document.createElement('article');
+        card.className = `structured-issue severity-${issue.severity.toLowerCase()}`;
+        card.dataset.issueId = issue.id;
+        const heading = document.createElement('h4');
+        heading.textContent = `${issue.id} · ${issue.title}`;
+        const meta = document.createElement('p');
+        meta.className = 'structured-review-meta';
+        meta.textContent = `${issue.severity} · ${issue.category} · ${
+            issue.start_line === null
+                ? 'Location unknown'
+                : `Lines ${issue.start_line}-${issue.end_line}`
+        } · Confidence ${Math.round(issue.confidence * 100)}%`;
+        card.append(heading, meta);
+        appendReviewText(card, 'Explanation', issue.explanation);
+        appendReviewText(card, 'Impact', issue.impact);
+        appendReviewCode(card, 'Original code', issue.original_code);
+        appendReviewCode(card, 'Suggested fix', issue.suggested_fix);
+        root.appendChild(card);
+    });
+
+    if (review.suggestions.length) {
+        const suggestionsHeading = document.createElement('h3');
+        suggestionsHeading.textContent = `Suggestions (${review.suggestions.length})`;
+        root.appendChild(suggestionsHeading);
+        review.suggestions.forEach((suggestion) => {
+            const card = document.createElement('article');
+            card.className = 'structured-review-panel';
+            const heading = document.createElement('h4');
+            heading.textContent = `${suggestion.id} · ${suggestion.title}`;
+            const meta = document.createElement('p');
+            meta.className = 'structured-review-meta';
+            meta.textContent = `${suggestion.category} · ${
+                suggestion.start_line === null
+                    ? 'Location unspecified'
+                    : `Lines ${suggestion.start_line}-${suggestion.end_line}`
+            }`;
+            card.append(heading, meta);
+            appendReviewText(card, 'Explanation', suggestion.explanation);
+            appendReviewText(card, 'Recommendation', suggestion.recommendation);
+            appendReviewCode(card, 'Original code', suggestion.original_code);
+            root.appendChild(card);
+        });
+    }
+
+    if (review.changes_summary.length) {
+        const changes = document.createElement('section');
+        changes.className = 'structured-review-panel';
+        const heading = document.createElement('h3');
+        heading.textContent = 'Changes summary';
+        const list = document.createElement('ul');
+        review.changes_summary.forEach((change) => {
+            const item = document.createElement('li');
+            item.textContent = change;
+            list.appendChild(item);
+        });
+        changes.append(heading, list);
+        root.appendChild(changes);
+    }
+
+    if (review.remaining_concerns.length) {
+        const concerns = document.createElement('section');
+        concerns.className = 'structured-review-panel';
+        const heading = document.createElement('h3');
+        heading.textContent = 'Remaining concerns';
+        const list = document.createElement('ul');
+        review.remaining_concerns.forEach((concern) => {
+            const item = document.createElement('li');
+            item.textContent = concern;
+            list.appendChild(item);
+        });
+        concerns.append(heading, list);
+        root.appendChild(concerns);
+    }
+
+    appendReviewCode(root, 'Complete corrected code', review.corrected_code);
+    target.replaceChildren(root);
+    addCopyButtons(target);
+}
+
 function showError(message) {
     lastMarkdown = '';
     const box = document.createElement('div');
@@ -449,16 +576,22 @@ function appendConversationMessage(message) {
     const body = document.createElement('div');
     body.className = 'message-body';
     if (message.role === 'model') {
-        renderReview(message.content, body);
+        if (message.review) {
+            renderStructuredReview(message.review, body);
+        } else {
+            renderReview(message.content, body);
+        }
     } else if (message.kind === 'review' && message.code) {
-        const label = document.createElement('p');
-        label.className = 'submitted-code-label';
-        label.textContent = `${message.code.length} characters submitted`;
+        const details = document.createElement('details');
+        details.className = 'submitted-code';
+        const label = document.createElement('summary');
+        label.textContent = `Original submitted code (${message.code.split('\n').length} lines, ${message.code.length} characters)`;
         const code = document.createElement('pre');
         const codeText = document.createElement('code');
         codeText.textContent = message.code;
         code.appendChild(codeText);
-        body.append(label, code);
+        details.append(label, code);
+        body.appendChild(details);
     } else {
         body.textContent = message.content;
     }
@@ -520,10 +653,10 @@ async function submitCode() {
             return;
         }
 
-        if (response.ok && typeof data.analysis === 'string' && data.analysis.trim()) {
+        if (response.ok && typeof data.analysis === 'string' && data.analysis.trim() && data.review) {
             lastMarkdown = data.analysis.trim();
             copyReviewBtn.hidden = false;
-            renderReview(lastMarkdown);
+            renderStructuredReview(data.review);
             currentConversationId = data.conversation_id;
             reviewSucceeded = true;
         } else {

@@ -441,6 +441,26 @@ body { overflow-x: hidden; }
 .conversation-view { max-width: 900px; margin: 0 auto; }
 .conversation-heading { align-items: center; margin-bottom: 24px; }
 .conversation-heading h1 { font-size: 1.35rem; }
+.structured-review { display: grid; gap: 14px; }
+.structured-review > h3 { margin: 8px 0 0; color: #dce1f2; font-size: 1rem; }
+.structured-review-panel, .structured-issue { min-width: 0; padding: 16px 18px; border: 1px solid var(--line); border-radius: 9px; background: rgba(14,19,34,0.88); }
+.structured-issue { border-left: 3px solid #8791ad; }
+.structured-issue.severity-critical { border-left-color: #fb7185; }
+.structured-issue.severity-high { border-left-color: #fb923c; }
+.structured-issue.severity-medium { border-left-color: #facc15; }
+.structured-issue.severity-low { border-left-color: #60a5fa; }
+.structured-review h3, .structured-review h4 { margin: 0 0 9px; color: var(--text); font-size: 0.94rem; }
+.structured-review p { color: #c4cce1; }
+.structured-review-panel > p { margin: 0; }
+.structured-review-meta { margin: 0 0 12px; color: var(--muted) !important; font-size: 0.74rem; }
+.structured-review-text { margin-top: 11px; }
+.structured-review-text strong, .structured-review-code > strong { color: #b7a9ff; font-size: 0.76rem; }
+.structured-review-text p { margin: 4px 0 0; overflow-wrap: anywhere; }
+.structured-review-code { position: relative; margin-top: 11px; }
+.structured-review-code pre, .submitted-code pre { max-width: 100%; margin: 6px 0 0; overflow-x: auto; white-space: pre; }
+.structured-review-panel ul { margin: 8px 0 0; padding-left: 20px; color: #c4cce1; }
+.submitted-code summary { color: #b7c1dc; font-size: 0.76rem; cursor: pointer; }
+.submitted-code pre { margin-top: 10px; }
 .transcript { display: grid; gap: 18px; max-height: calc(100vh - 270px); overflow-y: auto; padding: 2px 3px 20px; }
 .chat-message { min-width: 0; padding: 17px 19px; border: 1px solid var(--line); border-radius: 9px; background: rgba(14,19,34,0.88); }
 .user-message { background: rgba(22,27,48,0.8); }
