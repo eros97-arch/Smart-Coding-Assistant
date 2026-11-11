@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Code Checker</title>
+    <title>Smart Coding Assistant</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,7 +26,7 @@
                     <line x1="13.5" y1="5" x2="10.5" y2="19"></line>
                 </svg>
             </div>
-            <span class="brand-name">Smart Code Checker</span>
+            <span class="brand-name">Smart Coding Assistant</span>
         </div>
         <button class="primary new-review" id="new-review-btn" type="button">+ New review</button>
         <label class="history-search">
@@ -60,6 +60,10 @@
                 </svg>
             </button>
             <span class="topbar-title">Code review workspace</span>
+            <nav class="primary-navigation" aria-label="Main navigation">
+                <button class="navigation-link" id="dashboard-nav" type="button" aria-current="page">Dashboard</button>
+                <button class="navigation-link" id="workspace-nav" type="button">Workspace</button>
+            </nav>
             <span class="status-indicator"><span></span> Gemini review</span>
         </div>
 
@@ -147,7 +151,6 @@
             <section class="view conversation-view" id="conversation-view" hidden>
                 <div class="conversation-heading">
                     <div><p class="eyebrow" id="conversation-language">Review conversation</p><h1 id="conversation-title">Review</h1></div>
-                    <button class="ghost" id="conversation-dashboard" type="button">Dashboard</button>
                 </div>
                 <div class="transcript" id="transcript" aria-live="polite"></div>
                 <form class="followup-form" id="followup-form">

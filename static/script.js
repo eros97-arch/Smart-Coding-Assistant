@@ -10,6 +10,8 @@ const appShell = document.getElementById('app-shell');
 const sidebar = document.getElementById('sidebar');
 const sidebarToggle = document.getElementById('sidebar-toggle');
 const sidebarBackdrop = document.getElementById('sidebar-backdrop');
+const dashboardNav = document.getElementById('dashboard-nav');
+const workspaceNav = document.getElementById('workspace-nav');
 const conversationList = document.getElementById('conversation-list');
 const historySearch = document.getElementById('history-search');
 const dashboardView = document.getElementById('dashboard-view');
@@ -209,6 +211,9 @@ function showView(view) {
     [dashboardView, editorView, conversationView].forEach((section) => {
         section.hidden = section !== view;
     });
+    const showingDashboard = view === dashboardView;
+    dashboardNav.setAttribute('aria-current', showingDashboard ? 'page' : 'false');
+    workspaceNav.setAttribute('aria-current', showingDashboard ? 'false' : 'page');
     appShell.classList.remove('sidebar-open');
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -570,9 +575,16 @@ followupInput.addEventListener('keydown', (event) => {
 
 document.getElementById('new-review-btn').addEventListener('click', startNewReview);
 document.getElementById('dashboard-new-review').addEventListener('click', startNewReview);
-document.getElementById('conversation-dashboard').addEventListener('click', () => {
+dashboardNav.addEventListener('click', () => {
     showView(dashboardView);
     loadDashboard();
+});
+workspaceNav.addEventListener('click', () => {
+    if (currentConversationId !== null) {
+        openConversation(currentConversationId);
+    } else {
+        showView(editorView);
+    }
 });
 sidebarToggle.addEventListener('click', () => {
     if (window.matchMedia('(max-width: 760px)').matches) {
