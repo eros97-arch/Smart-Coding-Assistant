@@ -10,6 +10,7 @@ const appShell = document.getElementById('app-shell');
 const sidebar = document.getElementById('sidebar');
 const sidebarToggle = document.getElementById('sidebar-toggle');
 const sidebarBackdrop = document.getElementById('sidebar-backdrop');
+const themeToggle = document.getElementById('theme-toggle');
 const dashboardNav = document.getElementById('dashboard-nav');
 const workspaceNav = document.getElementById('workspace-nav');
 const conversationList = document.getElementById('conversation-list');
@@ -27,6 +28,26 @@ const dialogMessage = document.getElementById('dialog-message');
 const dialogLabel = document.getElementById('dialog-label');
 const dialogInput = document.getElementById('dialog-input');
 const dialogConfirm = document.getElementById('dialog-confirm');
+
+const THEME_STORAGE_KEY = 'smart-coding-assistant-theme';
+
+function setTheme(theme) {
+    document.documentElement.dataset.theme = theme;
+    document.documentElement.style.colorScheme = theme;
+
+    const nextTheme = theme === 'dark' ? 'light' : 'dark';
+    themeToggle.setAttribute('aria-label', `Switch to ${nextTheme} theme`);
+    themeToggle.title = `Switch to ${nextTheme} theme`;
+    themeToggle.setAttribute('aria-pressed', String(theme === 'light'));
+    themeToggle.querySelector('span').textContent = nextTheme === 'light' ? 'Light' : 'Dark';
+    localStorage.setItem(THEME_STORAGE_KEY, theme);
+}
+
+const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+setTheme(savedTheme === 'light' ? 'light' : 'dark');
+themeToggle.addEventListener('click', () => {
+    setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
+});
 
 let lastMarkdown = '';
 let statusTimer = null;
