@@ -1,0 +1,3 @@
+﻿test,attack,protected_if,observed,result,tested_at
+Payload cap,"5 MB body, invalid language",413 Payload Too Large,5.8 MB sent -> HTTP 400 in 0.05s,VULNERABLE,2026-11-18 08:24:40
+Rate limiting,"50 requests, 10 at a time",some 429 Too Many Requests,"50 requests in 0.07s (675/s), status codes {400: 50}",VULNERABLE,2026-11-18 08:24:40

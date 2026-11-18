@@ -1,0 +1,6 @@
+[main]	INFO	profile include tests: None
+[main]	INFO	profile exclude tests: None
+[main]	INFO	cli include tests: None
+[main]	INFO	cli exclude tests: None
+[main]	INFO	running on Python 3.14.3
+[csv]	INFO	CSV output written to file: C:\Users\finns\Desktop\Smart-Coding-Assistant\qa_reports\2026-11-18_0820\bandit_results.csv

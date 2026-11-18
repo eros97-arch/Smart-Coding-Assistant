@@ -1,0 +1,26 @@
+============================= test session starts =============================
+platform win32 -- Python 3.14.3, pytest-9.2.0, pluggy-1.7.0 -- C:\Users\finns\Desktop\Smart-Coding-Assistant\venv\bin\python.exe
+rootdir: C:\Users\finns\Desktop\Smart-Coding-Assistant
+plugins: platformdirs-4.14.6
+collecting ... collected 47 items / 2 errors
+
+=================================== ERRORS ====================================
+________________ ERROR collecting tests/test_qa_edge_cases.py _________________
+import file mismatch:
+imported module 'test_qa_edge_cases' has this __file__ attribute:
+  C:\Users\finns\Desktop\Smart-Coding-Assistant\tests\qa_tests\test_qa_edge_cases.py
+which is not the same as the test file we want to collect:
+  C:\Users\finns\Desktop\Smart-Coding-Assistant\tests\test_qa_edge_cases.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+___________________ ERROR collecting tests/test_security.py ___________________
+import file mismatch:
+imported module 'test_security' has this __file__ attribute:
+  C:\Users\finns\Desktop\Smart-Coding-Assistant\tests\qa_tests\test_security.py
+which is not the same as the test file we want to collect:
+  C:\Users\finns\Desktop\Smart-Coding-Assistant\tests\test_security.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+=========================== short test summary info ===========================
+ERROR tests/test_qa_edge_cases.py
+ERROR tests/test_security.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 2 errors during collection !!!!!!!!!!!!!!!!!!!
+============================== 2 errors in 0.27s ==============================

@@ -1,0 +1,190 @@
+SMART CODING ASSISTANT - FULL QA REPORT
+============================================================
+Generated: 2026-11-18 08:57:39
+Folder:    C:\Users\finns\Desktop\Smart-Coding-Assistant\qa_reports\2026-11-18_0850
+
+OVERVIEW
+--------
+1. Automated tests (pytest)    12 failed, 35 passed, 10 subtests passed in 4.09s
+2. Bandit scan                 1 High, 1 Medium, 0 Low (B310 urlopen = known false positive)
+3. pip-audit                   No known vulnerabilities
+4. Live AI benchmark           Languages: 10, requests: 104, successful: 102 (98%) | Response time: mean 2.4s, median 2.2s, max 5.2s | Planted bug detected: 100/100
+5. DoS proof of concept        Payload cap: VULNERABLE | Rate limiting: VULNERABLE
+6. Charts                      SKIPPED - run: venv\bin\python -m pip install matplotlib
+
+
+AUTOMATED TESTS
+===============
+SMART CODING ASSISTANT - AUTOMATED TEST REPORT
+============================================================
+Date:     2026-11-18 08:50:29
+Machine:  Windows 11, Python 3.14.3
+Duration: 4.15 s
+
+Tests:    47   passed 35   failed 12
+Subtests: 10   passed 10
+
+By category:
+  Core feature     10 tests   passed  10   failed   0
+  QA edge case     13 tests   passed  13   failed   0
+  Security         12 tests   passed  12   failed   0
+  Defect            6 tests   passed   0   failed   6
+  Vulnerability     6 tests   passed   0   failed   6
+
+QA verdict: ALL AS EXPECTED
+
+KNOWN ISSUES CONFIRMED (Defects and Vulnerabilities)
+----------------------------------------------------
+[Defect] test_qa_edge_cases.py :: test_DEFECT_corrupt_stored_row_should_not_crash_history
+    -> json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+[Defect] test_qa_edge_cases.py :: test_DEFECT_failed_review_should_not_count_on_dashboard
+    -> AssertionError: 1 != 0 : A failed review is counted on the dashboard (total_reviews=1)
+[Defect] test_qa_edge_cases.py :: test_DEFECT_oversized_code_should_be_rejected
+    -> AssertionError: 502 != 413 : ~2 MB of code was accepted (HTTP 502) instead of rejected with 413
+[Defect] test_qa_edge_cases.py :: test_DEFECT_rapid_requests_should_be_rate_limited
+    -> AssertionError: 429 not found in {502} : 30 rapid requests, none blocked; status codes seen: [502]
+[Defect] test_qa_edge_cases.py :: test_DEFECT_rename_with_list_body_should_be_400
+    -> AttributeError: 'list' object has no attribute 'get'
+[Defect] test_qa_edge_cases.py :: test_DEFECT_rename_with_non_string_title_should_be_400
+    -> AttributeError: 'int' object has no attribute 'strip'
+[Vulnerability] test_security.py :: test_VULN_cdn_scripts_have_no_integrity_check
+    -> AssertionError: False is not true : No integrity= check on CDN script: <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js">
+[Vulnerability] test_security.py :: test_VULN_debug_mode_enabled
+    -> AssertionError: True is not false : app.py runs with debug=True: Werkzeug debugger allows remote code execution
+[Vulnerability] test_security.py :: test_VULN_no_access_control_anyone_can_delete_history
+    -> AssertionError: 200 == 200 : A client with no login deleted another user's review (HTTP 200)
+[Vulnerability] test_security.py :: test_VULN_no_rate_limit
+    -> AssertionError: 429 not found in {502} : 30 rapid requests, none blocked; status codes seen: [502]
+[Vulnerability] test_security.py :: test_VULN_no_security_headers
+    -> AssertionError: ['Content-Security-Policy', 'X-Content-Type-Options', 'X-Frame-Options'] is not false : Missing security headers: Content-Security-Policy, X-Content-Type-Options, X-Frame-Options
+[Vulnerability] test_security.py :: test_VULN_no_size_limit_quota_exhaustion
+    -> AssertionError: 2 != 0 : 2 MB of code was accepted and sent to Gemini 2 time(s)
+
+
+BANDIT
+======
+Run started:2026-11-18 00:50:30.114151+00:00
+
+Test results:
+>> Issue: [B310:blacklist] Audit url open for permitted schemes. Allowing use of file:/ or custom schemes is often unexpected.
+   Severity: Medium   Confidence: High
+   CWE: CWE-22 (https://cwe.mitre.org/data/definitions/22.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_calls.html#b310-urllib-urlopen
+   Location: .\app.py:250:17
+249	        try:
+250	            with urllib.request.urlopen(req, timeout=TIMEOUT_SECONDS) as response:
+251	                res_data = json.loads(response.read().decode('utf-8'))
+
+--------------------------------------------------
+>> Issue: [B201:flask_debug_true] A Flask app appears to be run with debug=True, which exposes the Werkzeug debugger and allows the execution of arbitrary code.
+   Severity: High   Confidence: Medium
+   CWE: CWE-94 (https://cwe.mitre.org/data/definitions/94.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b201_flask_debug_true.html
+   Location: .\app.py:842:4
+841	if __name__ == '__main__':
+842	    app.run(debug=True, port=5000)
+
+--------------------------------------------------
+
+Code scanned:
+	Total lines of code: 751
+	Total lines skipped (#nosec): 0
+	Total potential issues skipped due to specifically being disabled (e.g., #nosec BXXX): 0
+
+Run metrics:
+	Total issues (by severity):
+		Undefined: 0
+		Low: 0
+		Medium: 1
+		High: 1
+	Total issues (by confidence):
+		Undefined: 0
+		Low: 0
+		Medium: 1
+		High: 1
+Files skipped (0):
+[main]	INFO	profile include tests: None
+[main]	INFO	profile exclude tests: None
+[main]	INFO	cli include tests: None
+[main]	INFO	cli exclude tests: None
+[main]	INFO	running on Python 3.14.3
+
+
+PIP-AUDIT
+=========
+No known vulnerabilities found
+
+
+LIVE AI BENCHMARK
+=================
+SMART CODING ASSISTANT - LIVE AI BENCHMARK REPORT
+Generated: 2026-11-18 08:57:38
+===== SUMMARY: ALL RESULTS IN C:\Users\finns\Desktop\Smart-Coding-Assistant\qa_reports\2026-11-18_0850\benchmark_results.csv (put these on the slide) =====
+Languages: 10, requests: 104, successful: 102 (98%)
+Response time: mean 2.4s, median 2.2s, max 5.2s
+Planted bug detected: 100/100
+Clean code with 0 issues (no false alarms): 2/2
+Prompt-injection attack resisted (still found the bug): 2/2
+Python corrected_code parses: 14/14
+
+Per bug type (planted bug detected / successful runs):
+  Security    30/30
+  Runtime     25/25
+  Syntax      21/21
+  Logic       14/14
+  Memory      6/6
+  Quality     4/4
+
+Per language (planted bug detected / successful runs):
+  Python      12/12   (14/14 requests succeeded)
+  JavaScript  10/10   (10/10 requests succeeded)
+  Java        10/10   (10/10 requests succeeded)
+  PHP         10/10   (10/10 requests succeeded)
+  C           9/9   (9/10 requests succeeded)
+  C++         10/10   (10/10 requests succeeded)
+  C#          10/10   (10/10 requests succeeded)
+  SQL         10/10   (10/10 requests succeeded)
+  HTML        10/10   (10/10 requests succeeded)
+  CSS         9/9   (9/10 requests succeeded)
+
+Notes: "detected" = the AI findings mention the planted bug (keyword check).
+"parses" = Python corrected_code passes ast.parse (syntax only, not correctness).
+clean_code is excluded from detection counts; it checks for false alarms.
+
+
+DoS PROOF OF CONCEPT
+====================
+SMART CODING ASSISTANT - DoS PROOF OF CONCEPT
+==================================================
+Date: 2026-11-18 08:57:38
+Target: http://127.0.0.1:5000/review
+
+Payload cap: VULNERABLE
+  Attack:    5 MB body, invalid language
+  Protected: 413 Payload Too Large
+  Observed:  5.8 MB sent -> HTTP 400 in 0.05s
+
+Rate limiting: VULNERABLE
+  Attack:    50 requests, 10 at a time
+  Protected: some 429 Too Many Requests
+  Observed:  50 requests in 0.06s (801/s), status codes {400: 50}
+
+No Gemini quota was used: every request was invalid on purpose and rejected
+before the AI call, which still proves the server accepted it without limits.
+
+
+FILES IN THIS FOLDER
+--------------------
+bandit_log.txt
+bandit_report.txt
+bandit_results.csv
+benchmark_log.txt
+benchmark_results.csv
+benchmark_summary.txt
+dos_log.txt
+dos_results.csv
+dos_summary.txt
+pip_audit_report.txt
+pytest_output.txt
+test_results.csv
+test_summary.txt

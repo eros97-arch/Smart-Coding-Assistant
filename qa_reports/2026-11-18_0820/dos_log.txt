@@ -1,0 +1,22 @@
+
+=== TEST 1: Payload cap (5 MB of code) ===
+Sent 5.8 MB -> HTTP 400 in 0.05s
+Server said: {
+  "error": "Unsupported programming language"
+}
+
+RESULT: VULNERABLE - server accepted and parsed the whole payload.
+        With a valid language, all of it would be sent to Gemini (quota/cost).
+
+=== TEST 2: Rate limit (50 requests, 10 at a time) ===
+50 requests in 0.07s (675 per second)
+Status codes: {400: 50}
+RESULT: VULNERABLE - all 50 requests were processed; none blocked.
+        Nothing stops one script from sending reviews non-stop, each one a
+        Gemini call, until the free quota (HTTP 429 from Google) runs out.
+
+===== DoS PROOF-OF-CONCEPT SUMMARY =====
+Payload cap:   VULNERABLE
+Rate limiting: VULNERABLE
+No Gemini quota was used (all requests were rejected before the AI call).
+Saved C:\Users\finns\Desktop\Smart-Coding-Assistant\qa_reports\2026-11-18_0820\dos_results.csv and C:\Users\finns\Desktop\Smart-Coding-Assistant\qa_reports\2026-11-18_0820\dos_summary.txt

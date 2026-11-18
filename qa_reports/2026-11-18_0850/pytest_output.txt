@@ -1,0 +1,367 @@
+============================= test session starts =============================
+platform win32 -- Python 3.14.3, pytest-9.2.0, pluggy-1.7.0 -- C:\Users\finns\Desktop\Smart-Coding-Assistant\venv\bin\python.exe
+rootdir: C:\Users\finns\Desktop\Smart-Coding-Assistant
+plugins: platformdirs-4.14.6
+collecting ... collected 47 items
+
+tests/test_app.py::SmartCodeCheckerTests::test_bad_locations_are_null_and_malformed_json_is_not_a_success PASSED [  2%]
+tests/test_app.py::SmartCodeCheckerTests::test_call_gemini_requests_schema_constrained_json PASSED [  4%]
+tests/test_app.py::SmartCodeCheckerTests::test_existing_database_gains_structured_review_column PASSED [  6%]
+tests/test_app.py::SmartCodeCheckerTests::test_follow_up_sends_saved_conversation_context PASSED [  8%]
+tests/test_app.py::SmartCodeCheckerTests::test_partial_structured_response_keeps_valid_findings_and_reports_concerns PASSED [ 10%]
+tests/test_app.py::SmartCodeCheckerTests::test_rejects_unsupported_language_and_empty_code PASSED [ 12%]
+tests/test_app.py::SmartCodeCheckerTests::test_review_persists_language_and_dashboard_severity PASSED [ 14%]
+tests/test_app.py::SmartCodeCheckerTests::test_search_rename_and_delete_conversation PASSED [ 17%]
+tests/test_app.py::SmartCodeCheckerTests::test_structured_review_preserves_planted_findings_and_original_locations PASSED [ 19%]
+tests/test_app.py::SmartCodeCheckerTests::test_suggestion_location_is_cleared_when_source_excerpt_does_not_match PASSED [ 21%]
+tests/test_qa_edge_cases.py::QAEdgeCaseTests::test_DEFECT_corrupt_stored_row_should_not_crash_history FAILED [ 23%]
+tests/test_qa_edge_cases.py::QAEdgeCaseTests::test_DEFECT_failed_review_should_not_count_on_dashboard FAILED [ 25%]
+tests/test_qa_edge_cases.py::QAEdgeCaseTests::test_DEFECT_oversized_code_should_be_rejected FAILED [ 27%]
+tests/test_qa_edge_cases.py::QAEdgeCaseTests::test_DEFECT_rapid_requests_should_be_rate_limited FAILED [ 29%]
+tests/test_qa_edge_cases.py::QAEdgeCaseTests::test_DEFECT_rename_with_list_body_should_be_400 FAILED [ 31%]
+tests/test_qa_edge_cases.py::QAEdgeCaseTests::test_DEFECT_rename_with_non_string_title_should_be_400 FAILED [ 34%]
+tests/test_qa_edge_cases.py::QAEdgeCaseTests::test_all_models_failing_returns_502_not_crash PASSED [ 36%]
+tests/test_qa_edge_cases.py::QAEdgeCaseTests::test_all_ten_languages_accepted_and_sent_to_gemini 
+tests/test_qa_edge_cases.py::QAEdgeCaseTests::test_all_ten_languages_accepted_and_sent_to_gemini PASSED [ 38%]
+tests/test_qa_edge_cases.py::QAEdgeCaseTests::test_api_key_not_leaked_in_responses PASSED [ 40%]
+tests/test_qa_edge_cases.py::QAEdgeCaseTests::test_delete_cascades_to_messages PASSED [ 42%]
+tests/test_qa_edge_cases.py::QAEdgeCaseTests::test_empty_follow_up_rejected PASSED [ 44%]
+tests/test_qa_edge_cases.py::QAEdgeCaseTests::test_fallback_to_second_model PASSED [ 46%]
+tests/test_qa_edge_cases.py::QAEdgeCaseTests::test_language_is_case_sensitive PASSED [ 48%]
+tests/test_qa_edge_cases.py::QAEdgeCaseTests::test_missing_api_key_returns_clear_500 PASSED [ 51%]
+tests/test_qa_edge_cases.py::QAEdgeCaseTests::test_non_json_body_rejected PASSED [ 53%]
+tests/test_qa_edge_cases.py::QAEdgeCaseTests::test_rename_truncates_to_100_chars PASSED [ 55%]
+tests/test_qa_edge_cases.py::QAEdgeCaseTests::test_search_is_parameterised_against_sql_injection PASSED [ 57%]
+tests/test_qa_edge_cases.py::QAEdgeCaseTests::test_unknown_conversation_returns_404 PASSED [ 59%]
+tests/test_qa_edge_cases.py::QAEdgeCaseTests::test_whitespace_only_code_rejected PASSED [ 61%]
+tests/test_security.py::SecurityTests::test_VULN_cdn_scripts_have_no_integrity_check FAILED [ 63%]
+tests/test_security.py::SecurityTests::test_VULN_debug_mode_enabled FAILED [ 65%]
+tests/test_security.py::SecurityTests::test_VULN_no_access_control_anyone_can_delete_history FAILED [ 68%]
+tests/test_security.py::SecurityTests::test_VULN_no_rate_limit FAILED    [ 70%]
+tests/test_security.py::SecurityTests::test_VULN_no_security_headers FAILED [ 72%]
+tests/test_security.py::SecurityTests::test_VULN_no_size_limit_quota_exhaustion FAILED [ 74%]
+tests/test_security.py::SecurityTests::test_ai_cannot_invent_fields_outside_the_schema PASSED [ 76%]
+tests/test_security.py::SecurityTests::test_ai_output_with_injected_html_is_kept_as_text PASSED [ 78%]
+tests/test_security.py::SecurityTests::test_api_key_never_sent_to_browser PASSED [ 80%]
+tests/test_security.py::SecurityTests::test_api_key_never_stored_in_database PASSED [ 82%]
+tests/test_security.py::SecurityTests::test_api_key_not_hardcoded_in_source PASSED [ 85%]
+tests/test_security.py::SecurityTests::test_api_key_sent_in_header_not_url PASSED [ 87%]
+tests/test_security.py::SecurityTests::test_frontend_sanitises_ai_markdown_with_dompurify PASSED [ 89%]
+tests/test_security.py::SecurityTests::test_non_numeric_ids_are_rejected_by_routing PASSED [ 91%]
+tests/test_security.py::SecurityTests::test_server_errors_do_not_leak_stack_traces PASSED [ 93%]
+tests/test_security.py::SecurityTests::test_sql_injection_in_search_is_blocked PASSED [ 95%]
+tests/test_security.py::SecurityTests::test_sql_injection_in_title_and_code_is_stored_as_plain_text PASSED [ 97%]
+tests/test_security.py::SecurityTests::test_xss_payload_is_returned_as_json_data_not_html PASSED [100%]
+Reports saved: C:\Users\finns\Desktop\Smart-Coding-Assistant\qa_reports\2026-11-18_0850\test_results.csv and test_summary.txt
+
+
+================================== FAILURES ===================================
+___ QAEdgeCaseTests.test_DEFECT_corrupt_stored_row_should_not_crash_history ___
+tests\test_qa_edge_cases.py:180: in test_DEFECT_corrupt_stored_row_should_not_crash_history
+    r = self.client.get(f'/api/conversations/{cid}')
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+venv\lib\python3.14\site-packages\werkzeug\test.py:1166: in get
+    return self.open(*args, **kw)
+           ^^^^^^^^^^^^^^^^^^^^^^
+venv\lib\python3.14\site-packages\flask\testing.py:235: in open
+    response = super().open(
+venv\lib\python3.14\site-packages\werkzeug\test.py:1120: in open
+    response_parts = self.run_wsgi_app(request.environ, buffered=buffered)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+venv\lib\python3.14\site-packages\werkzeug\test.py:992: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+venv\lib\python3.14\site-packages\werkzeug\test.py:1268: in run_wsgi_app
+    app_rv = app(environ, start_response)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+venv\lib\python3.14\site-packages\flask\app.py:1536: in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+venv\lib\python3.14\site-packages\flask\app.py:1514: in wsgi_app
+    response = self.handle_exception(e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+venv\lib\python3.14\site-packages\flask\app.py:1511: in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+venv\lib\python3.14\site-packages\flask\app.py:919: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+venv\lib\python3.14\site-packages\flask\app.py:917: in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+venv\lib\python3.14\site-packages\flask\app.py:902: in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app.py:753: in get_conversation
+    message['severity_counts'] = json.loads(message['severity_counts'] or '{}')
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\msys64\mingw64\lib\python3.14\json\__init__.py:352: in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\msys64\mingw64\lib\python3.14\json\decoder.py:345: in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\msys64\mingw64\lib\python3.14\json\decoder.py:363: in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+E   json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+___ QAEdgeCaseTests.test_DEFECT_failed_review_should_not_count_on_dashboard ___
+tests\test_qa_edge_cases.py:171: in test_DEFECT_failed_review_should_not_count_on_dashboard
+    self.assertEqual(data['total_reviews'], 0,
+E   AssertionError: 1 != 0 : A failed review is counted on the dashboard (total_reviews=1)
+---------------------------- Captured stdout call -----------------------------
+Switching to next model after: m: HTTP 503
+Switching to next model after: m: HTTP 503
+________ QAEdgeCaseTests.test_DEFECT_oversized_code_should_be_rejected ________
+tests\test_qa_edge_cases.py:156: in test_DEFECT_oversized_code_should_be_rejected
+    self.assertEqual(r.status_code, 413,
+E   AssertionError: 502 != 413 : ~2 MB of code was accepted (HTTP 502) instead of rejected with 413
+---------------------------- Captured stdout call -----------------------------
+Switching to next model after: x
+Switching to next model after: x
+______ QAEdgeCaseTests.test_DEFECT_rapid_requests_should_be_rate_limited ______
+tests\test_qa_edge_cases.py:165: in test_DEFECT_rapid_requests_should_be_rate_limited
+    self.assertIn(429, codes, f'30 rapid requests, none blocked; status codes seen: {sorted(codes)}')
+E   AssertionError: 429 not found in {502} : 30 rapid requests, none blocked; status codes seen: [502]
+---------------------------- Captured stdout call -----------------------------
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+_______ QAEdgeCaseTests.test_DEFECT_rename_with_list_body_should_be_400 _______
+tests\test_qa_edge_cases.py:149: in test_DEFECT_rename_with_list_body_should_be_400
+    r = self.client.patch(f'/api/conversations/{cid}', json=['x'])
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+venv\lib\python3.14\site-packages\werkzeug\test.py:1186: in patch
+    return self.open(*args, **kw)
+           ^^^^^^^^^^^^^^^^^^^^^^
+venv\lib\python3.14\site-packages\flask\testing.py:235: in open
+    response = super().open(
+venv\lib\python3.14\site-packages\werkzeug\test.py:1120: in open
+    response_parts = self.run_wsgi_app(request.environ, buffered=buffered)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+venv\lib\python3.14\site-packages\werkzeug\test.py:992: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+venv\lib\python3.14\site-packages\werkzeug\test.py:1268: in run_wsgi_app
+    app_rv = app(environ, start_response)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+venv\lib\python3.14\site-packages\flask\app.py:1536: in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+venv\lib\python3.14\site-packages\flask\app.py:1514: in wsgi_app
+    response = self.handle_exception(e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+venv\lib\python3.14\site-packages\flask\app.py:1511: in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+venv\lib\python3.14\site-packages\flask\app.py:919: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+venv\lib\python3.14\site-packages\flask\app.py:917: in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+venv\lib\python3.14\site-packages\flask\app.py:902: in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app.py:763: in rename_conversation
+    title = data.get('title', '').strip()
+            ^^^^^^^^
+E   AttributeError: 'list' object has no attribute 'get'
+___ QAEdgeCaseTests.test_DEFECT_rename_with_non_string_title_should_be_400 ____
+tests\test_qa_edge_cases.py:144: in test_DEFECT_rename_with_non_string_title_should_be_400
+    r = self.client.patch(f'/api/conversations/{cid}', json={'title': 123})
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+venv\lib\python3.14\site-packages\werkzeug\test.py:1186: in patch
+    return self.open(*args, **kw)
+           ^^^^^^^^^^^^^^^^^^^^^^
+venv\lib\python3.14\site-packages\flask\testing.py:235: in open
+    response = super().open(
+venv\lib\python3.14\site-packages\werkzeug\test.py:1120: in open
+    response_parts = self.run_wsgi_app(request.environ, buffered=buffered)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+venv\lib\python3.14\site-packages\werkzeug\test.py:992: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+venv\lib\python3.14\site-packages\werkzeug\test.py:1268: in run_wsgi_app
+    app_rv = app(environ, start_response)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+venv\lib\python3.14\site-packages\flask\app.py:1536: in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+venv\lib\python3.14\site-packages\flask\app.py:1514: in wsgi_app
+    response = self.handle_exception(e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+venv\lib\python3.14\site-packages\flask\app.py:1511: in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+venv\lib\python3.14\site-packages\flask\app.py:919: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+venv\lib\python3.14\site-packages\flask\app.py:917: in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+venv\lib\python3.14\site-packages\flask\app.py:902: in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app.py:763: in rename_conversation
+    title = data.get('title', '').strip()
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'int' object has no attribute 'strip'
+_________ SecurityTests.test_VULN_cdn_scripts_have_no_integrity_check _________
+tests\test_security.py:173: in test_VULN_cdn_scripts_have_no_integrity_check
+    self.assertTrue('integrity=' in tag,
+E   AssertionError: False is not true : No integrity= check on CDN script: <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js">
+_________________ SecurityTests.test_VULN_debug_mode_enabled __________________
+tests\test_security.py:159: in test_VULN_debug_mode_enabled
+    self.assertFalse('debug=True' in src,
+E   AssertionError: True is not false : app.py runs with debug=True: Werkzeug debugger allows remote code execution
+_____ SecurityTests.test_VULN_no_access_control_anyone_can_delete_history _____
+tests\test_security.py:192: in test_VULN_no_access_control_anyone_can_delete_history
+    self.assertNotEqual(status, 200, 'A client with no login deleted another user\'s review (HTTP 200)')
+E   AssertionError: 200 == 200 : A client with no login deleted another user's review (HTTP 200)
+____________________ SecurityTests.test_VULN_no_rate_limit ____________________
+tests\test_security.py:186: in test_VULN_no_rate_limit
+    self.assertIn(429, codes, f'30 rapid requests, none blocked; status codes seen: {sorted(codes)}')
+E   AssertionError: 429 not found in {502} : 30 rapid requests, none blocked; status codes seen: [502]
+---------------------------- Captured stdout call -----------------------------
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+Switching to next model after: x
+_________________ SecurityTests.test_VULN_no_security_headers _________________
+tests\test_security.py:166: in test_VULN_no_security_headers
+    self.assertFalse(missing, f'Missing security headers: {", ".join(missing)}')
+E   AssertionError: ['Content-Security-Policy', 'X-Content-Type-Options', 'X-Frame-Options'] is not false : Missing security headers: Content-Security-Policy, X-Content-Type-Options, X-Frame-Options
+___________ SecurityTests.test_VULN_no_size_limit_quota_exhaustion ____________
+tests\test_security.py:179: in test_VULN_no_size_limit_quota_exhaustion
+    self.assertEqual(m.call_count, 0,
+E   AssertionError: 2 != 0 : 2 MB of code was accepted and sent to Gemini 2 time(s)
+---------------------------- Captured stdout call -----------------------------
+Switching to next model after: x
+Switching to next model after: x
+=========================== short test summary info ===========================
+FAILED tests/test_qa_edge_cases.py::QAEdgeCaseTests::test_DEFECT_corrupt_stored_row_should_not_crash_history
+FAILED tests/test_qa_edge_cases.py::QAEdgeCaseTests::test_DEFECT_failed_review_should_not_count_on_dashboard
+FAILED tests/test_qa_edge_cases.py::QAEdgeCaseTests::test_DEFECT_oversized_code_should_be_rejected
+FAILED tests/test_qa_edge_cases.py::QAEdgeCaseTests::test_DEFECT_rapid_requests_should_be_rate_limited
+FAILED tests/test_qa_edge_cases.py::QAEdgeCaseTests::test_DEFECT_rename_with_list_body_should_be_400
+FAILED tests/test_qa_edge_cases.py::QAEdgeCaseTests::test_DEFECT_rename_with_non_string_title_should_be_400
+FAILED tests/test_security.py::SecurityTests::test_VULN_cdn_scripts_have_no_integrity_check
+FAILED tests/test_security.py::SecurityTests::test_VULN_debug_mode_enabled - ...
+FAILED tests/test_security.py::SecurityTests::test_VULN_no_access_control_anyone_can_delete_history
+FAILED tests/test_security.py::SecurityTests::test_VULN_no_rate_limit - Asser...
+FAILED tests/test_security.py::SecurityTests::test_VULN_no_security_headers
+FAILED tests/test_security.py::SecurityTests::test_VULN_no_size_limit_quota_exhaustion
+============== 12 failed, 35 passed, 10 subtests passed in 4.09s ==============

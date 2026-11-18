@@ -1,0 +1,25 @@
+SMART CODING ASSISTANT - LIVE AI BENCHMARK REPORT
+Generated: 2026-11-18 04:33:02
+===== SUMMARY: ALL RESULTS IN C:\Users\finns\Desktop\Smart-Coding-Assistant\qa_reports\2026-11-18_0430\benchmark_results.csv (put these on the slide) =====
+Languages: 10, requests: 32, successful: 32 (100%)
+Response time: mean 4.9s, median 4.6s, max 9.6s
+Planted bug detected: 30/30
+Clean code with 0 issues (no false alarms): 2/2
+Prompt-injection attack resisted (still found the bug): 2/2
+Python corrected_code parses: 14/14
+
+Per language (planted bug detected / successful runs):
+  Python      12/12   (14/14 requests succeeded)
+  JavaScript  2/2   (2/2 requests succeeded)
+  Java        2/2   (2/2 requests succeeded)
+  PHP         2/2   (2/2 requests succeeded)
+  C           2/2   (2/2 requests succeeded)
+  C++         2/2   (2/2 requests succeeded)
+  C#          2/2   (2/2 requests succeeded)
+  SQL         2/2   (2/2 requests succeeded)
+  HTML        2/2   (2/2 requests succeeded)
+  CSS         2/2   (2/2 requests succeeded)
+
+Notes: "detected" = the AI findings mention the planted bug (keyword check).
+"parses" = Python corrected_code passes ast.parse (syntax only, not correctness).
+clean_code is excluded from detection counts; it checks for false alarms.

@@ -1,0 +1,58 @@
+﻿file,test,subtest,category,outcome,qa_verdict,seconds,failure_message
+test_app.py,test_bad_locations_are_null_and_malformed_json_is_not_a_success,,Core feature,passed,OK,0.056,
+test_app.py,test_call_gemini_requests_schema_constrained_json,,Core feature,passed,OK,0.043,
+test_app.py,test_existing_database_gains_structured_review_column,,Core feature,passed,OK,0.092,
+test_app.py,test_follow_up_sends_saved_conversation_context,,Core feature,passed,OK,0.081,
+test_app.py,test_partial_structured_response_keeps_valid_findings_and_reports_concerns,,Core feature,passed,OK,0.041,
+test_app.py,test_rejects_unsupported_language_and_empty_code,,Core feature,passed,OK,0.042,
+test_app.py,test_review_persists_language_and_dashboard_severity,,Core feature,passed,OK,0.062,
+test_app.py,test_search_rename_and_delete_conversation,,Core feature,passed,OK,0.082,
+test_app.py,test_structured_review_preserves_planted_findings_and_original_locations,,Core feature,passed,OK,0.060,
+test_app.py,test_suggestion_location_is_cleared_when_source_excerpt_does_not_match,,Core feature,passed,OK,0.041,
+test_qa_edge_cases.py,test_DEFECT_corrupt_stored_row_should_not_crash_history,,Defect,failed,Confirmed (known issue),0.067,json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+test_qa_edge_cases.py,test_DEFECT_failed_review_should_not_count_on_dashboard,,Defect,failed,Confirmed (known issue),0.052,AssertionError: 1 != 0 : A failed review is counted on the dashboard (total_reviews=1)
+test_qa_edge_cases.py,test_DEFECT_oversized_code_should_be_rejected,,Defect,failed,Confirmed (known issue),0.092,AssertionError: 502 != 413 : ~2 MB of code was accepted (HTTP 502) instead of rejected with 413
+test_qa_edge_cases.py,test_DEFECT_rapid_requests_should_be_rate_limited,,Defect,failed,Confirmed (known issue),0.327,"AssertionError: 429 not found in {502} : 30 rapid requests, none blocked; status codes seen: [502]"
+test_qa_edge_cases.py,test_DEFECT_rename_with_list_body_should_be_400,,Defect,failed,Confirmed (known issue),0.060,AttributeError: 'list' object has no attribute 'get'
+test_qa_edge_cases.py,test_DEFECT_rename_with_non_string_title_should_be_400,,Defect,failed,Confirmed (known issue),0.061,AttributeError: 'int' object has no attribute 'strip'
+test_qa_edge_cases.py,test_all_models_failing_returns_502_not_crash,,QA edge case,passed,OK,0.052,
+test_qa_edge_cases.py,test_all_ten_languages_accepted_and_sent_to_gemini,language='Python',QA edge case,passed,OK,0.000,
+test_qa_edge_cases.py,test_all_ten_languages_accepted_and_sent_to_gemini,language='JavaScript',QA edge case,passed,OK,0.000,
+test_qa_edge_cases.py,test_all_ten_languages_accepted_and_sent_to_gemini,language='Java',QA edge case,passed,OK,0.000,
+test_qa_edge_cases.py,test_all_ten_languages_accepted_and_sent_to_gemini,language='PHP',QA edge case,passed,OK,0.000,
+test_qa_edge_cases.py,test_all_ten_languages_accepted_and_sent_to_gemini,language='C',QA edge case,passed,OK,0.000,
+test_qa_edge_cases.py,test_all_ten_languages_accepted_and_sent_to_gemini,language='C++',QA edge case,passed,OK,0.000,
+test_qa_edge_cases.py,test_all_ten_languages_accepted_and_sent_to_gemini,language='C#',QA edge case,passed,OK,0.000,
+test_qa_edge_cases.py,test_all_ten_languages_accepted_and_sent_to_gemini,language='SQL',QA edge case,passed,OK,0.000,
+test_qa_edge_cases.py,test_all_ten_languages_accepted_and_sent_to_gemini,language='HTML',QA edge case,passed,OK,0.000,
+test_qa_edge_cases.py,test_all_ten_languages_accepted_and_sent_to_gemini,language='CSS',QA edge case,passed,OK,0.000,
+test_qa_edge_cases.py,test_all_ten_languages_accepted_and_sent_to_gemini,,QA edge case,passed,OK,0.250,
+test_qa_edge_cases.py,test_api_key_not_leaked_in_responses,,QA edge case,passed,OK,0.054,
+test_qa_edge_cases.py,test_delete_cascades_to_messages,,QA edge case,passed,OK,0.070,
+test_qa_edge_cases.py,test_empty_follow_up_rejected,,QA edge case,passed,OK,0.060,
+test_qa_edge_cases.py,test_fallback_to_second_model,,QA edge case,passed,OK,0.060,
+test_qa_edge_cases.py,test_language_is_case_sensitive,,QA edge case,passed,OK,0.041,
+test_qa_edge_cases.py,test_missing_api_key_returns_clear_500,,QA edge case,passed,OK,0.040,
+test_qa_edge_cases.py,test_non_json_body_rejected,,QA edge case,passed,OK,0.039,
+test_qa_edge_cases.py,test_rename_truncates_to_100_chars,,QA edge case,passed,OK,0.074,
+test_qa_edge_cases.py,test_search_is_parameterised_against_sql_injection,,QA edge case,passed,OK,0.059,
+test_qa_edge_cases.py,test_unknown_conversation_returns_404,,QA edge case,passed,OK,0.041,
+test_qa_edge_cases.py,test_whitespace_only_code_rejected,,QA edge case,passed,OK,0.039,
+test_security.py,test_VULN_cdn_scripts_have_no_integrity_check,,Vulnerability,failed,Confirmed (known issue),0.039,"AssertionError: False is not true : No integrity= check on CDN script: <script src=""https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"">"
+test_security.py,test_VULN_debug_mode_enabled,,Vulnerability,failed,Confirmed (known issue),0.043,AssertionError: True is not false : app.py runs with debug=True: Werkzeug debugger allows remote code execution
+test_security.py,test_VULN_no_access_control_anyone_can_delete_history,,Vulnerability,failed,Confirmed (known issue),0.070,AssertionError: 200 == 200 : A client with no login deleted another user's review (HTTP 200)
+test_security.py,test_VULN_no_rate_limit,,Vulnerability,failed,Confirmed (known issue),0.341,"AssertionError: 429 not found in {502} : 30 rapid requests, none blocked; status codes seen: [502]"
+test_security.py,test_VULN_no_security_headers,,Vulnerability,failed,Confirmed (known issue),0.048,"AssertionError: ['Content-Security-Policy', 'X-Content-Type-Options', 'X-Frame-Options'] is not false : Missing security headers: Content-Security-Policy, X-Content-Type-Options, X-Frame-Options"
+test_security.py,test_VULN_no_size_limit_quota_exhaustion,,Vulnerability,failed,Confirmed (known issue),0.082,AssertionError: 2 != 0 : 2 MB of code was accepted and sent to Gemini 2 time(s)
+test_security.py,test_ai_cannot_invent_fields_outside_the_schema,,Security,passed,OK,0.065,
+test_security.py,test_ai_output_with_injected_html_is_kept_as_text,,Security,passed,OK,0.062,
+test_security.py,test_api_key_never_sent_to_browser,,Security,passed,OK,0.052,
+test_security.py,test_api_key_never_stored_in_database,,Security,passed,OK,0.061,
+test_security.py,test_api_key_not_hardcoded_in_source,,Security,passed,OK,0.041,
+test_security.py,test_api_key_sent_in_header_not_url,,Security,passed,OK,0.045,
+test_security.py,test_frontend_sanitises_ai_markdown_with_dompurify,,Security,passed,OK,0.046,
+test_security.py,test_non_numeric_ids_are_rejected_by_routing,,Security,passed,OK,0.045,
+test_security.py,test_server_errors_do_not_leak_stack_traces,,Security,passed,OK,0.052,
+test_security.py,test_sql_injection_in_search_is_blocked,,Security,passed,OK,0.069,
+test_security.py,test_sql_injection_in_title_and_code_is_stored_as_plain_text,,Security,passed,OK,0.074,
+test_security.py,test_xss_payload_is_returned_as_json_data_not_html,,Security,passed,OK,0.071,

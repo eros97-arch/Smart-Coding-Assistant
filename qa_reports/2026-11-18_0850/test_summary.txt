@@ -1,0 +1,44 @@
+SMART CODING ASSISTANT - AUTOMATED TEST REPORT
+============================================================
+Date:     2026-11-18 08:50:29
+Machine:  Windows 11, Python 3.14.3
+Duration: 4.15 s
+
+Tests:    47   passed 35   failed 12
+Subtests: 10   passed 10
+
+By category:
+  Core feature     10 tests   passed  10   failed   0
+  QA edge case     13 tests   passed  13   failed   0
+  Security         12 tests   passed  12   failed   0
+  Defect            6 tests   passed   0   failed   6
+  Vulnerability     6 tests   passed   0   failed   6
+
+QA verdict: ALL AS EXPECTED
+
+KNOWN ISSUES CONFIRMED (Defects and Vulnerabilities)
+----------------------------------------------------
+[Defect] test_qa_edge_cases.py :: test_DEFECT_corrupt_stored_row_should_not_crash_history
+    -> json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+[Defect] test_qa_edge_cases.py :: test_DEFECT_failed_review_should_not_count_on_dashboard
+    -> AssertionError: 1 != 0 : A failed review is counted on the dashboard (total_reviews=1)
+[Defect] test_qa_edge_cases.py :: test_DEFECT_oversized_code_should_be_rejected
+    -> AssertionError: 502 != 413 : ~2 MB of code was accepted (HTTP 502) instead of rejected with 413
+[Defect] test_qa_edge_cases.py :: test_DEFECT_rapid_requests_should_be_rate_limited
+    -> AssertionError: 429 not found in {502} : 30 rapid requests, none blocked; status codes seen: [502]
+[Defect] test_qa_edge_cases.py :: test_DEFECT_rename_with_list_body_should_be_400
+    -> AttributeError: 'list' object has no attribute 'get'
+[Defect] test_qa_edge_cases.py :: test_DEFECT_rename_with_non_string_title_should_be_400
+    -> AttributeError: 'int' object has no attribute 'strip'
+[Vulnerability] test_security.py :: test_VULN_cdn_scripts_have_no_integrity_check
+    -> AssertionError: False is not true : No integrity= check on CDN script: <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js">
+[Vulnerability] test_security.py :: test_VULN_debug_mode_enabled
+    -> AssertionError: True is not false : app.py runs with debug=True: Werkzeug debugger allows remote code execution
+[Vulnerability] test_security.py :: test_VULN_no_access_control_anyone_can_delete_history
+    -> AssertionError: 200 == 200 : A client with no login deleted another user's review (HTTP 200)
+[Vulnerability] test_security.py :: test_VULN_no_rate_limit
+    -> AssertionError: 429 not found in {502} : 30 rapid requests, none blocked; status codes seen: [502]
+[Vulnerability] test_security.py :: test_VULN_no_security_headers
+    -> AssertionError: ['Content-Security-Policy', 'X-Content-Type-Options', 'X-Frame-Options'] is not false : Missing security headers: Content-Security-Policy, X-Content-Type-Options, X-Frame-Options
+[Vulnerability] test_security.py :: test_VULN_no_size_limit_quota_exhaustion
+    -> AssertionError: 2 != 0 : 2 MB of code was accepted and sent to Gemini 2 time(s)

@@ -1,0 +1,3 @@
+filename,test_name,test_id,issue_severity,issue_confidence,issue_cwe,issue_text,line_number,col_offset,end_col_offset,line_range,more_info
+.\app.py,blacklist,B310,MEDIUM,HIGH,https://cwe.mitre.org/data/definitions/22.html,Audit url open for permitted schemes. Allowing use of file:/ or custom schemes is often unexpected.,250,17,69,[250],https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_calls.html#b310-urllib-urlopen
+.\app.py,flask_debug_true,B201,HIGH,MEDIUM,https://cwe.mitre.org/data/definitions/94.html,"A Flask app appears to be run with debug=True, which exposes the Werkzeug debugger and allows the execution of arbitrary code.",842,4,34,[842],https://bandit.readthedocs.io/en/1.9.4/plugins/b201_flask_debug_true.html

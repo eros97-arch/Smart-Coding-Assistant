@@ -1,0 +1,17 @@
+SMART CODING ASSISTANT - DoS PROOF OF CONCEPT
+==================================================
+Date: 2026-11-18 04:33:02
+Target: http://127.0.0.1:5000/review
+
+Payload cap: VULNERABLE
+  Attack:    5 MB body, invalid language
+  Protected: 413 Payload Too Large
+  Observed:  5.8 MB sent -> HTTP 400 in 0.04s
+
+Rate limiting: VULNERABLE
+  Attack:    50 requests, 10 at a time
+  Protected: some 429 Too Many Requests
+  Observed:  50 requests in 0.08s (633/s), status codes {400: 50}
+
+No Gemini quota was used: every request was invalid on purpose and rejected
+before the AI call, which still proves the server accepted it without limits.

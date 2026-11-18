@@ -1,0 +1,131 @@
+SMART CODING ASSISTANT - FULL QA REPORT
+============================================================
+Generated: 2026-11-18 04:33:02
+Folder:    C:\Users\finns\Desktop\Smart-Coding-Assistant\qa_reports\2026-11-18_0430
+
+OVERVIEW
+--------
+1. Automated tests (pytest)    exit code 2
+2. Bandit scan                 1 High, 1 Medium, 0 Low (B310 urlopen = known false positive)
+3. pip-audit                   No known vulnerabilities
+4. Live AI benchmark           Languages: 10, requests: 32, successful: 32 (100%) | Response time: mean 4.9s, median 4.6s, max 9.6s | Planted bug detected: 30/30
+5. DoS proof of concept        Payload cap: VULNERABLE | Rate limiting: VULNERABLE
+
+
+BANDIT
+======
+Run started:2026-11-17 20:30:06.794931+00:00
+
+Test results:
+>> Issue: [B310:blacklist] Audit url open for permitted schemes. Allowing use of file:/ or custom schemes is often unexpected.
+   Severity: Medium   Confidence: High
+   CWE: CWE-22 (https://cwe.mitre.org/data/definitions/22.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_calls.html#b310-urllib-urlopen
+   Location: .\app.py:250:17
+249	        try:
+250	            with urllib.request.urlopen(req, timeout=TIMEOUT_SECONDS) as response:
+251	                res_data = json.loads(response.read().decode('utf-8'))
+
+--------------------------------------------------
+>> Issue: [B201:flask_debug_true] A Flask app appears to be run with debug=True, which exposes the Werkzeug debugger and allows the execution of arbitrary code.
+   Severity: High   Confidence: Medium
+   CWE: CWE-94 (https://cwe.mitre.org/data/definitions/94.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b201_flask_debug_true.html
+   Location: .\app.py:842:4
+841	if __name__ == '__main__':
+842	    app.run(debug=True, port=5000)
+
+--------------------------------------------------
+
+Code scanned:
+	Total lines of code: 751
+	Total lines skipped (#nosec): 0
+	Total potential issues skipped due to specifically being disabled (e.g., #nosec BXXX): 0
+
+Run metrics:
+	Total issues (by severity):
+		Undefined: 0
+		Low: 0
+		Medium: 1
+		High: 1
+	Total issues (by confidence):
+		Undefined: 0
+		Low: 0
+		Medium: 1
+		High: 1
+Files skipped (0):
+[main]	INFO	profile include tests: None
+[main]	INFO	profile exclude tests: None
+[main]	INFO	cli include tests: None
+[main]	INFO	cli exclude tests: None
+[main]	INFO	running on Python 3.14.3
+
+
+PIP-AUDIT
+=========
+No known vulnerabilities found
+
+
+LIVE AI BENCHMARK
+=================
+SMART CODING ASSISTANT - LIVE AI BENCHMARK REPORT
+Generated: 2026-11-18 04:33:02
+===== SUMMARY: ALL RESULTS IN C:\Users\finns\Desktop\Smart-Coding-Assistant\qa_reports\2026-11-18_0430\benchmark_results.csv (put these on the slide) =====
+Languages: 10, requests: 32, successful: 32 (100%)
+Response time: mean 4.9s, median 4.6s, max 9.6s
+Planted bug detected: 30/30
+Clean code with 0 issues (no false alarms): 2/2
+Prompt-injection attack resisted (still found the bug): 2/2
+Python corrected_code parses: 14/14
+
+Per language (planted bug detected / successful runs):
+  Python      12/12   (14/14 requests succeeded)
+  JavaScript  2/2   (2/2 requests succeeded)
+  Java        2/2   (2/2 requests succeeded)
+  PHP         2/2   (2/2 requests succeeded)
+  C           2/2   (2/2 requests succeeded)
+  C++         2/2   (2/2 requests succeeded)
+  C#          2/2   (2/2 requests succeeded)
+  SQL         2/2   (2/2 requests succeeded)
+  HTML        2/2   (2/2 requests succeeded)
+  CSS         2/2   (2/2 requests succeeded)
+
+Notes: "detected" = the AI findings mention the planted bug (keyword check).
+"parses" = Python corrected_code passes ast.parse (syntax only, not correctness).
+clean_code is excluded from detection counts; it checks for false alarms.
+
+
+DoS PROOF OF CONCEPT
+====================
+SMART CODING ASSISTANT - DoS PROOF OF CONCEPT
+==================================================
+Date: 2026-11-18 04:33:02
+Target: http://127.0.0.1:5000/review
+
+Payload cap: VULNERABLE
+  Attack:    5 MB body, invalid language
+  Protected: 413 Payload Too Large
+  Observed:  5.8 MB sent -> HTTP 400 in 0.04s
+
+Rate limiting: VULNERABLE
+  Attack:    50 requests, 10 at a time
+  Protected: some 429 Too Many Requests
+  Observed:  50 requests in 0.08s (633/s), status codes {400: 50}
+
+No Gemini quota was used: every request was invalid on purpose and rejected
+before the AI call, which still proves the server accepted it without limits.
+
+
+FILES IN THIS FOLDER
+--------------------
+bandit_log.txt
+bandit_report.txt
+bandit_results.csv
+benchmark_log.txt
+benchmark_results.csv
+benchmark_summary.txt
+dos_log.txt
+dos_results.csv
+dos_summary.txt
+pip_audit_report.txt
+pytest_output.txt
